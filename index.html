@@ -23,35 +23,207 @@
         </nav>
     </header>
 
-    <section class="hero">
-        <div class="container">
-            <h1>Записи на онлайн курсы</h1>
-            <p>Повышение квалификации, переподготовка, охрана труда — дистанционное обучение для профессионалов</p>
-            
-            <div class="hero-slider">
-                <div class="slider-wrapper" id="slider-wrapper">
-                    <div class="slide"><img src="assets/images/1.jpg" alt="Повышение квалификации"></div>
-                    <div class="slide"><img src="assets/images/2.jpg" alt="Курс переподготовки"></div>
-                    <div class="slide"><img src="assets/images/3.jpg" alt="Охрана труда"></div>
-                    <div class="slide"><img src="assets/images/4.jpg" alt="Сертификаты"></div>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Записи на онлайн курсы</h1>
+                <p>Повышение квалификации, переподготовка, охрана труда — дистанционное обучение для профессионалов</p>
+                
+                <div class="hero-slider">
+                    <div class="slider-wrapper" id="slider-wrapper">
+                        <div class="slide"><img src="assets/images/1.jpg" alt="Повышение квалификации"></div>
+                        <div class="slide"><img src="assets/images/2.jpg" alt="Курс переподготовки"></div>
+                        <div class="slide"><img src="assets/images/3.jpg" alt="Охрана труда"></div>
+                        <div class="slide"><img src="assets/images/4.jpg" alt="Сертификаты"></div>
+                    </div>
+                    <button class="slider-btn prev">‹</button>
+                    <button class="slider-btn next">›</button>
+                    <div class="slider-dots"></div>
                 </div>
-                <button class="slider-btn prev" id="slider-prev">‹</button>
-                <button class="slider-btn next" id="slider-next">›</button>
-                <div class="slider-dots" id="slider-dots"></div>
-            </div>
 
-            <div class="hero-buttons">
-                <a href="assets/login.html" class="btn">Войти в систему</a>
-                <a href="assets/register.html" class="btn-outline">Зарегистрироваться</a>
+                <div class="hero-buttons">
+                    <a href="assets/login.html" class="btn">Войти в систему</a>
+                    <a href="assets/register.html" class="btn-outline">Зарегистрироваться</a>
+                </div>
             </div>
+        </section>
 
-            <div class="contact-block">
-                <p><strong>Адрес:</strong> г. Москва, ул. Большая Ордынка, д. 15</p>
-                <p><strong>Телефон:</strong> +7 (495) 123-45-67</p>
-                <p class="contact-note">Ответим оперативно и подробно</p>
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Почему выбирают нас</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0d47a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <h3>Опытные преподаватели</h3>
+                        <p>Обучение ведут практикующие специалисты с многолетним опытом</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0d47a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21"/>
+                                <line x1="12" y1="17" x2="12" y2="21"/>
+                            </svg>
+                        </div>
+                        <h3>Дистанционный формат</h3>
+                        <p>Учитесь из любой точки мира в удобное для вас время</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0d47a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10 9 9 9 8 9"/>
+                            </svg>
+                        </div>
+                        <h3>Официальные документы</h3>
+                        <p>По окончании выдаётся удостоверение установленного образца</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0d47a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <h3>Гибкий график</h3>
+                        <p>Вы сами выбираете время и темп прохождения обучения</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="courses" id="courses">
+            <div class="container">
+                <h2 class="section-title">Направления обучения</h2>
+                <div class="courses-grid">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="assets/images/1.jpg" alt="Повышение квалификации">
+                        </div>
+                        <div class="course-info">
+                            <h3>Повышение квалификации</h3>
+                            <p>Актуализация знаний и навыков в соответствии с современными требованиями</p>
+                            <span class="course-tag">Длительность: от 72 часов</span>
+                            <a href="assets/register.html" class="btn btn-sm">Записаться</a>
+                        </div>
+                    </div>
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="assets/images/2.jpg" alt="Профессиональная переподготовка">
+                        </div>
+                        <div class="course-info">
+                            <h3>Профессиональная переподготовка</h3>
+                            <p>Получение новой профессии с нуля или смена квалификации</p>
+                            <span class="course-tag">Длительность: от 250 часов</span>
+                            <a href="assets/register.html" class="btn btn-sm">Записаться</a>
+                        </div>
+                    </div>
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="assets/images/3.jpg" alt="Охрана труда">
+                        </div>
+                        <div class="course-info">
+                            <h3>Охрана труда</h3>
+                            <p>Подготовка специалистов по охране труда и промышленной безопасности</p>
+                            <span class="course-tag">Длительность: от 40 часов</span>
+                            <a href="assets/register.html" class="btn btn-sm">Записаться</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section" id="contacts">
+            <div class="container">
+                <div class="contact-block">
+                    <h2>Свяжитесь с нами</h2>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <span class="contact-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d47a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <strong>Адрес</strong>
+                                <p>г. Москва, ул. Большая Ордынка, д. 15</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d47a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <strong>Телефон</strong>
+                                <p>+7 (495) 123-45-67</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d47a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                    <polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <strong>E-mail</strong>
+                                <p>info@uchus.ru</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d47a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <strong>Режим работы</strong>
+                                <p>Пн-Пт: 9:00 - 18:00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="contact-note">Ответим оперативно и подробно на все ваши вопросы</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <img src="assets/images/logo.png" alt="Учусь.РФ" class="logo-img">
+                        <span>Учусь.РФ</span>
+                    </div>
+                    <p>Дистанционное обучение для профессионалов. Повышение квалификации, переподготовка, охрана труда.</p>
+                </div>
+
+                <div class="footer-contacts">
+                    <h4>Контакты</h4>
+                    <p>+7 (495) 123-45-67</p>
+                    <p>info@uchus.ru</p>
+                    <p>г. Москва, ул. Большая Ордынка, д. 15</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Учусь.РФ. Все права защищены.</p>
             </div>
         </div>
-    </section>
+    </footer>
 
     <script src="assets/main.js"></script>
 </body>

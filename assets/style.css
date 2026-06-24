@@ -17,12 +17,22 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background: #f0f4f9;
     color: #1a1a2e;
     line-height: 1.6;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
 }
 
 /* ===== ШАПКА ===== */
@@ -83,6 +93,7 @@ header {
 
 .burger-menu.active span:nth-child(2) {
     opacity: 0;
+    transform: scaleX(0);
 }
 
 .burger-menu.active span:nth-child(3) {
@@ -147,7 +158,6 @@ nav button {
         opacity: 0;
         transform: translateY(25px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -175,6 +185,7 @@ nav button {
 .hero {
     text-align: center;
     padding: 40px 0 60px;
+    background: linear-gradient(180deg, #f0f4f9 0%, #ffffff 100%);
 }
 
 .hero h1 {
@@ -346,17 +357,6 @@ nav button {
     background: #b02a37;
     border-color: #b02a37;
     color: white;
-}
-
-.btn-warning {
-    background: #ffc107;
-    border-color: #ffc107;
-    color: #212529;
-}
-
-.btn-warning:hover {
-    background: #e0a800;
-    border-color: #e0a800;
 }
 
 /* ===== ФОРМЫ ===== */
@@ -687,40 +687,292 @@ textarea:focus {
         transform: translateX(100%);
         opacity: 0;
     }
-
     to {
         transform: translateX(0);
         opacity: 1;
     }
 }
 
-/* ===== КОНТАКТЫ ===== */
-.contact-block {
-    margin-top: 40px;
-    padding: 24px 28px;
+/* ===== БЛОК ПРЕИМУЩЕСТВ ===== */
+.features {
+    padding: 60px 0;
+    background: white;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 32px;
+    color: var(--dark-primary);
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 30px 20px;
+    background: #f8faff;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    border: 1px solid #eef2f7;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+    border-color: var(--primary);
+}
+
+.feature-icon {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.feature-icon svg {
+    width: 48px;
+    height: 48px;
+}
+
+.feature-card h3 {
+    font-size: 18px;
+    color: var(--dark-primary);
+    margin-bottom: 8px;
+}
+
+.feature-card p {
+    font-size: 14px;
+    color: #5a5a72;
+    line-height: 1.5;
+}
+
+/* ===== БЛОК КУРСОВ ===== */
+.courses {
+    padding: 60px 0;
+    background: #f0f4f9;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.course-card {
     background: white;
     border-radius: var(--radius);
+    overflow: hidden;
     box-shadow: var(--shadow);
-    text-align: left;
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
+    transition: var(--transition);
 }
 
-.contact-block p {
-    margin: 6px 0;
-    font-size: 15px;
-    color: #2d2d44;
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
 }
 
-.contact-block strong {
+.course-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.course-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.course-card:hover .course-image img {
+    transform: scale(1.05);
+}
+
+.course-info {
+    padding: 20px 24px 24px;
+}
+
+.course-info h3 {
+    font-size: 18px;
+    color: var(--dark-primary);
+    margin-bottom: 8px;
+}
+
+.course-info p {
+    font-size: 14px;
+    color: #5a5a72;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.course-tag {
+    display: inline-block;
+    background: #eef2f7;
+    color: #4a4a5a;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-bottom: 14px;
+}
+
+.course-info .btn {
+    width: 100%;
+    text-align: center;
+}
+
+/* ===== КОНТАКТЫ ===== */
+.contact-section {
+    padding: 60px 0;
+    background: white;
+}
+
+.contact-block {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px;
+    background: #f8faff;
+    border-radius: var(--radius);
+    border: 1px solid #eef2f7;
+}
+
+.contact-block h2 {
+    text-align: center;
+    color: var(--dark-primary);
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+.contact-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #eef2f7;
+    transition: var(--transition);
+}
+
+.contact-item:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow);
+}
+
+.contact-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.contact-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.contact-item strong {
+    display: block;
+    font-size: 14px;
     color: var(--dark-primary);
 }
 
+.contact-item p {
+    font-size: 14px;
+    color: #4a4a5a;
+    margin: 2px 0 0;
+}
+
 .contact-note {
-    color: #6a6a82 !important;
-    font-size: 13px !important;
-    margin-top: 4px !important;
+    text-align: center;
+    color: #6a6a82;
+    font-size: 14px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #eef2f7;
+}
+
+/* ===== ФУТЕР ===== */
+.footer {
+    background: #1a1a2e;
+    color: #b0b0c0;
+    padding: 50px 0 0;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.5fr;
+    gap: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-brand .logo {
+    color: white;
+    margin-bottom: 12px;
+}
+
+.footer-brand .logo span {
+    color: white;
+}
+
+.footer-brand .logo-img {
+    filter: brightness(0) invert(1);
+}
+
+.footer-brand p {
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 320px;
+    color: #8a8aa0;
+}
+
+.footer-links h4,
+.footer-contacts h4 {
+    color: white;
+    font-size: 16px;
+    margin-bottom: 14px;
+    font-weight: 600;
+}
+
+.footer-links ul {
+    list-style: none;
+}
+
+.footer-links ul li {
+    margin-bottom: 8px;
+}
+
+.footer-links ul li a {
+    color: #8a8aa0;
+    text-decoration: none;
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.footer-links ul li a:hover {
+    color: white;
+}
+
+.footer-contacts p {
+    font-size: 14px;
+    color: #8a8aa0;
+    margin-bottom: 6px;
+}
+
+.footer-bottom {
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #6a6a82;
 }
 
 /* ===== ХЕДЕР В КАБИНЕТЕ ===== */
@@ -737,6 +989,25 @@ textarea:focus {
 }
 
 /* ===== АДАПТИВ ===== */
+@media (max-width: 992px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .contact-info {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+}
+
 @media (max-width: 768px) {
     .burger-menu {
         display: flex;
@@ -747,15 +1018,17 @@ textarea:focus {
         top: 0;
         right: -100%;
         width: 280px;
+        max-width: 80%;
         height: 100vh;
         background: white;
         flex-direction: column;
         padding: 80px 30px 30px;
-        gap: 16px;
-        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
-        transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        gap: 12px;
+        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+        transition: right 0.35s cubic-bezier(0.22, 1, 0.36, 1);
         align-items: stretch;
         z-index: 100;
+        overflow-y: auto;
     }
 
     .nav-menu.open {
@@ -769,9 +1042,9 @@ textarea:focus {
         padding: 14px;
         font-size: 16px;
         border-radius: 10px;
+        justify-content: center;
     }
 
-    /* Затемнение фона */
     .nav-overlay {
         display: none;
         position: fixed;
@@ -781,6 +1054,7 @@ textarea:focus {
         bottom: 0;
         background: rgba(0, 0, 0, 0.4);
         z-index: 99;
+        animation: fadeIn 0.3s ease;
     }
 
     .nav-overlay.active {
@@ -829,8 +1103,39 @@ textarea:focus {
         font-size: 14px;
     }
 
+    .features-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .footer-brand p {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .footer-brand .logo {
+        justify-content: center;
+    }
+
     .contact-block {
-        padding: 18px 16px;
+        padding: 24px 20px;
+    }
+
+    .contact-info {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        font-size: 26px;
     }
 
     .auth-logo-img {
@@ -847,7 +1152,11 @@ textarea:focus {
     }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 480px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
     .hero-slider {
         height: 170px;
     }
@@ -874,5 +1183,9 @@ textarea:focus {
 
     .app-card .actions select {
         width: 100%;
+    }
+
+    .course-image {
+        height: 160px;
     }
 }
