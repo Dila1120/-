@@ -55,7 +55,48 @@ header {
     width: auto;
 }
 
+/* ===== БУРГЕР-МЕНЮ ===== */
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 101;
+}
+
+.burger-menu span {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background: var(--dark-primary);
+    border-radius: 3px;
+    transition: var(--transition);
+    transform-origin: center;
+}
+
+.burger-menu.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 6px);
+}
+
+.burger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-menu.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -6px);
+}
+
+/* ===== НАВИГАЦИЯ ===== */
 nav {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.nav-menu {
     display: flex;
     gap: 12px;
     align-items: center;
@@ -696,11 +737,58 @@ textarea:focus {
 }
 
 /* ===== АДАПТИВ ===== */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+    .burger-menu {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: white;
+        flex-direction: column;
+        padding: 80px 30px 30px;
+        gap: 16px;
+        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
+        transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        align-items: stretch;
+        z-index: 100;
+    }
+
+    .nav-menu.open {
+        right: 0;
+    }
+
+    .nav-menu a,
+    .nav-menu button {
+        width: 100%;
+        text-align: center;
+        padding: 14px;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+
+    /* Затемнение фона */
+    .nav-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 99;
+    }
+
+    .nav-overlay.active {
+        display: block;
+    }
+
     header {
         padding: 12px 20px;
-        flex-wrap: wrap;
-        gap: 10px;
     }
 
     .logo {
@@ -709,12 +797,6 @@ textarea:focus {
 
     .logo-img {
         height: 30px;
-    }
-
-    nav a,
-    nav button {
-        font-size: 13px;
-        padding: 6px 14px;
     }
 
     .hero h1 {

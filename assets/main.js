@@ -33,6 +33,53 @@ function logout() {
 }
 
 // ============================================================
+// БУРГЕР-МЕНЮ
+// ============================================================
+function initBurgerMenu() {
+    const burger = document.getElementById('burger-menu');
+    const nav = document.getElementById('nav-menu');
+    
+    if (!burger || !nav) return;
+    
+    // Создаём overlay
+    let overlay = document.querySelector('.nav-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'nav-overlay';
+        document.body.appendChild(overlay);
+    }
+    
+    function toggleMenu() {
+        burger.classList.toggle('active');
+        nav.classList.toggle('open');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+    }
+    
+    function closeMenu() {
+        burger.classList.remove('active');
+        nav.classList.remove('open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    burger.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', closeMenu);
+    
+    // Закрываем при клике на ссылку в меню
+    nav.querySelectorAll('a, button').forEach(item => {
+        item.addEventListener('click', closeMenu);
+    });
+    
+    // Закрываем при изменении размера окна на десктопный
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            closeMenu();
+        }
+    });
+}
+
+// ============================================================
 // МОДАЛЬНОЕ ОКНО (для редактирования)
 // ============================================================
 function openModal(appId) {
@@ -427,6 +474,7 @@ function changePage(direction) {
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
+    initBurgerMenu();
     initSlider();
     initAuth();
 
