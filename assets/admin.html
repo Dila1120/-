@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель - Учусь.РФ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">📘 Учусь.РФ <span style="font-size:14px; font-weight:400; color:#6a6a82;">Админ-панель</span></div>
+        <nav>
+            <button class="btn-outline btn-sm" onclick="logout()">Выход</button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2 style="color: var(--dark-primary); margin-bottom:20px;">⚙️ Управление заявками</h2>
+            <div class="filter-bar">
+                <select id="status-filter">
+                    <option value="all">📋 Все заявки</option>
+                    <option value="Новая">🆕 Новые</option>
+                    <option value="Идет обучение">📚 В процессе</option>
+                    <option value="Обучение завершено">✅ Завершены</option>
+                </select>
+            </div>
+            <div id="admin-app-list"></div>
+            <div class="pagination">
+                <button id="prev-page" onclick="changePage(-1)">← Назад</button>
+                <span id="page-info">Страница 1 из 1</span>
+                <button id="next-page" onclick="changePage(1)">Вперед →</button>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
