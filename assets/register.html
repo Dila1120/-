@@ -8,14 +8,17 @@
 </head>
 <body>
     <div class="app-container">
-        <h2 style="color: var(--dark-primary);">📝 Регистрация</h2>
+        <div class="auth-logo">
+            <img src="images/logo.png" alt="Учусь.РФ" class="auth-logo-img">
+            <h2>Регистрация</h2>
+        </div>
         <form id="register-form">
-            <label>Логин (латиница + цифры, ≥ 6 симв.)</label>
+            <label>Логин (латиница + цифры, от 6 символов)</label>
             <input type="text" id="reg-login" placeholder="Например: student123" required>
             <div id="reg-login-error" class="error-msg"></div>
             
             <label>Пароль (минимум 8 символов)</label>
-            <input type="password" id="reg-password" placeholder="••••••••" required>
+            <input type="password" id="reg-password" placeholder="Введите пароль" required>
             <div id="reg-pass-error" class="error-msg"></div>
             
             <label>Ваше ФИО</label>

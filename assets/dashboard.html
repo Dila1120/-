@@ -7,13 +7,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <div class="logo">
+            <img src="images/logo.png" alt="Учусь.РФ" class="logo-img">
+            <span>Учусь.РФ</span>
+        </div>
+        <nav>
+            <button class="btn-outline btn-sm" onclick="logout()">Выход</button>
+        </nav>
+    </header>
+
     <div class="app-container">
         <div class="header-flex">
-            <h3>👤 Личный кабинет</h3>
-            <button class="btn-outline btn-sm" onclick="logout()">Выйти</button>
+            <h3>Личный кабинет</h3>
         </div>
 
-        <!-- Слайдер в кабинете -->
         <div class="hero-slider" style="max-width:100%; height:180px; margin-bottom:20px;">
             <div class="slider-wrapper" id="slider-wrapper-dash">
                 <div class="slide"><img src="images/1.jpg" alt="Курсы"></div>
@@ -23,9 +31,9 @@
             </div>
         </div>
 
-        <button class="btn" onclick="window.location.href='application.html'" style="width:100%;">➕ Подать заявку на курс</button>
+        <button class="btn" onclick="window.location.href='application.html'" style="width:100%;">Подать заявку на курс</button>
 
-        <h3 style="margin-top: 28px; color: var(--dark-primary);">📋 Мои заявки</h3>
+        <h3 style="margin-top: 28px; color: var(--dark-primary);">Мои заявки</h3>
         <div id="history-list"></div>
     </div>
     <script src="main.js"></script>

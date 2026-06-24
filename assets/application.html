@@ -7,9 +7,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <div class="logo">
+            <img src="images/logo.png" alt="Учусь.РФ" class="logo-img">
+            <span>Учусь.РФ</span>
+        </div>
+        <nav>
+            <a href="dashboard.html" class="btn-outline btn-sm">Назад</a>
+        </nav>
+    </header>
+
     <div class="app-container">
-        <button class="btn-outline btn-sm" onclick="window.location.href='dashboard.html'">← Назад</button>
-        <h2 style="margin-top:12px; color: var(--dark-primary);">📝 Новая заявка</h2>
+        <h2 style="color: var(--dark-primary);">Новая заявка</h2>
         <form id="app-form">
             <label>Выберите курс</label>
             <select id="app-course">

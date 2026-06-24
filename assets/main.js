@@ -29,80 +29,111 @@ function showToast(message, type = 'success') {
 
 function logout() {
     localStorage.removeItem('currentUser');
-    navigateTo('../index.html');
+    window.location.href = '../index.html';
 }
 
 // ============================================================
-// СЛАЙДЕР (исправлен)
+// МОДАЛЬНОЕ ОКНО (для редактирования)
+// ============================================================
+function openModal(appId) {
+    const apps = JSON.parse(localStorage.getItem('applications')) || [];
+    const app = apps.find(a => a.id === appId);
+    if (!app) {
+        showToast('Заявка не найдена', 'error');
+        return;
+    }
+
+    document.getElementById('edit-id').value = appId;
+    document.getElementById('edit-course').value = app.course;
+    document.getElementById('edit-date').value = app.date;
+    document.getElementById('edit-payment').value = app.payment;
+    document.getElementById('edit-status').value = app.status;
+
+    document.getElementById('edit-modal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('edit-modal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// ============================================================
+// СЛАЙДЕР
 // ============================================================
 function initSlider() {
-    const wrapper = document.getElementById('slider-wrapper');
-    if (!wrapper) return;
-    
-    const slides = wrapper.querySelectorAll('.slide');
-    const totalSlides = slides.length;
-    const dotsContainer = document.getElementById('slider-dots');
-    
-    // Создаём точки
-    if (dotsContainer) {
-        dotsContainer.innerHTML = '';
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('span');
-            dot.dataset.index = i;
-            dot.addEventListener('click', () => goToSlide(i));
-            dotsContainer.appendChild(dot);
+    const wrappers = document.querySelectorAll('.slider-wrapper');
+    if (wrappers.length === 0) return;
+
+    wrappers.forEach((wrapper) => {
+        const slides = wrapper.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        if (totalSlides === 0) return;
+
+        const container = wrapper.closest('.hero-slider') || wrapper.parentElement;
+        const prevBtn = container.querySelector('.prev');
+        const nextBtn = container.querySelector('.next');
+        const dotsContainer = container.querySelector('.slider-dots');
+
+        let current = 0;
+        let interval;
+
+        function goToSlide(i) {
+            current = (i + totalSlides) % totalSlides;
+            wrapper.style.transform = `translateX(-${current * 100 / totalSlides}%)`;
+            if (dotsContainer) {
+                dotsContainer.querySelectorAll('span').forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === current);
+                });
+            }
         }
-    }
-    
-    function goToSlide(index) {
-        currentSlide = (index + totalSlides) % totalSlides;
-        wrapper.style.transform = `translateX(-${currentSlide * 100 / totalSlides}%)`;
-        updateDots();
-    }
-    
-    function updateDots() {
-        if (!dotsContainer) return;
-        dotsContainer.querySelectorAll('span').forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentSlide);
-        });
-    }
-    
-    function nextSlide() {
-        goToSlide(currentSlide + 1);
-    }
-    
-    function prevSlide() {
-        goToSlide(currentSlide - 1);
-    }
-    
-    // Кнопки
-    document.getElementById('slider-prev')?.addEventListener('click', () => {
-        clearInterval(slideInterval);
-        prevSlide();
+
+        function nextSlide() { goToSlide(current + 1); }
+        function prevSlide() { goToSlide(current - 1); }
+
+        function startAutoSlide() {
+            if (interval) clearInterval(interval);
+            interval = setInterval(nextSlide, 3000);
+        }
+
+        if (dotsContainer) {
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('span');
+                dot.dataset.index = i;
+                dot.addEventListener('click', () => {
+                    clearInterval(interval);
+                    goToSlide(i);
+                    startAutoSlide();
+                });
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                clearInterval(interval);
+                prevSlide();
+                startAutoSlide();
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                clearInterval(interval);
+                nextSlide();
+                startAutoSlide();
+            });
+        }
+
+        goToSlide(0);
         startAutoSlide();
     });
-    
-    document.getElementById('slider-next')?.addEventListener('click', () => {
-        clearInterval(slideInterval);
-        nextSlide();
-        startAutoSlide();
-    });
-    
-    function startAutoSlide() {
-        if (slideInterval) clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, 3000);
-    }
-    
-    // Инициализация
-    goToSlide(0);
-    startAutoSlide();
 }
 
 // ============================================================
 // АВТОРИЗАЦИЯ И РЕГИСТРАЦИЯ
 // ============================================================
 function initAuth() {
-    // --- РЕГИСТРАЦИЯ ---
     const regForm = document.getElementById('register-form');
     if (regForm) {
         regForm.addEventListener('submit', function(e) {
@@ -112,7 +143,7 @@ function initAuth() {
             const fio = document.getElementById('reg-fio').value.trim();
             const phone = document.getElementById('reg-phone').value.trim();
             const email = document.getElementById('reg-email').value.trim();
-            
+
             let hasError = false;
             const loginRegex = /^[a-zA-Z0-9]{6,}$/;
             if (!loginRegex.test(login)) {
@@ -121,40 +152,38 @@ function initAuth() {
             } else {
                 document.getElementById('reg-login-error').innerText = '';
             }
-            
+
             if (password.length < 8) {
                 document.getElementById('reg-pass-error').innerText = 'Пароль должен быть мин. 8 символов.';
                 hasError = true;
             } else {
                 document.getElementById('reg-pass-error').innerText = '';
             }
-            
+
             if (hasError) return;
-            
+
             const users = JSON.parse(localStorage.getItem('users')) || [];
             if (users.find(u => u.login === login)) {
                 document.getElementById('reg-login-error').innerText = 'Логин уже занят.';
                 return;
             }
-            
+
             users.push({ login, password, fio, phone, email, role: 'user' });
             localStorage.setItem('users', JSON.stringify(users));
             showToast('Регистрация успешна! Войдите в систему.');
             navigateTo('login.html');
         });
     }
-    
-    // --- ВХОД ---
+
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const login = document.getElementById('login-username').value.trim();
             const password = document.getElementById('login-password').value;
-            
+
             const users = JSON.parse(localStorage.getItem('users')) || [];
-            
-            // Проверка на админа (жёстко зашито)
+
             if (login === 'Admin26' && password === 'Demo20') {
                 const adminUser = { login: 'Admin26', fio: 'Администратор', role: 'admin' };
                 localStorage.setItem('currentUser', JSON.stringify(adminUser));
@@ -162,7 +191,7 @@ function initAuth() {
                 navigateTo('admin.html');
                 return;
             }
-            
+
             const user = users.find(u => u.login === login && u.password === password);
             if (user) {
                 localStorage.setItem('currentUser', JSON.stringify(user));
@@ -181,24 +210,24 @@ function initAuth() {
 function renderDashboard() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if (!user || user.role === 'admin') {
-        navigateTo('../index.html');
+        window.location.href = '../index.html';
         return;
     }
-    
+
     const apps = JSON.parse(localStorage.getItem('applications')) || [];
     const userApps = apps.filter(a => a.userLogin === user.login);
     const list = document.getElementById('history-list');
     if (!list) return;
-    
+
     if (userApps.length === 0) {
         list.innerHTML = '<p style="color:#888; text-align:center; padding:30px 0;">У вас пока нет заявок. Начните обучение!</p>';
         return;
     }
-    
+
     list.innerHTML = userApps.slice().reverse().map((app) => {
-        let statusClass = app.status === 'Новая' ? 'status-new' : 
-                         (app.status === 'Идет обучение' ? 'status-progress' : 'status-done');
-        
+        let statusClass = app.status === 'Новая' ? 'status-new' :
+            (app.status === 'Идет обучение' ? 'status-progress' : 'status-done');
+
         let reviewHtml = '';
         if (app.status === 'Обучение завершено' && !app.review) {
             reviewHtml = `
@@ -208,13 +237,13 @@ function renderDashboard() {
                 </div>
             `;
         } else if (app.review) {
-            reviewHtml = `<p style="margin-top:8px; font-style:italic; color:#2d2d44; background:#f0f4f9; padding:10px 14px; border-radius:8px;">⭐ "${app.review}"</p>`;
+            reviewHtml = `<p style="margin-top:8px; font-style:italic; color:#2d2d44; background:#f0f4f9; padding:10px 14px; border-radius:8px;">"${app.review}"</p>`;
         }
-        
+
         return `
             <div class="app-card">
                 <strong>${app.course}</strong>
-                <div class="meta">📅 ${app.date} | 💳 ${app.payment}</div>
+                <div class="meta">${app.date} | ${app.payment}</div>
                 <span class="status-badge ${statusClass}">${app.status}</span>
                 ${reviewHtml}
             </div>
@@ -226,7 +255,7 @@ function saveReview(appId) {
     const apps = JSON.parse(localStorage.getItem('applications')) || [];
     const index = apps.findIndex(a => a.id === appId);
     if (index === -1) return;
-    
+
     const textarea = document.querySelector(`.review-area[data-appid="${appId}"]`);
     if (textarea && textarea.value.trim()) {
         apps[index].review = textarea.value.trim();
@@ -244,13 +273,13 @@ function saveReview(appId) {
 function initApplication() {
     const form = document.getElementById('app-form');
     if (!form) return;
-    
+
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if (!user) {
-        navigateTo('../index.html');
+        window.location.href = '../index.html';
         return;
     }
-    
+
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         const date = document.getElementById('app-date').value.trim();
@@ -258,7 +287,7 @@ function initApplication() {
             showToast('Введите дату в формате ДД.ММ.ГГГГ', 'error');
             return;
         }
-        
+
         const apps = JSON.parse(localStorage.getItem('applications')) || [];
         apps.push({
             id: Date.now(),
@@ -276,65 +305,66 @@ function initApplication() {
 }
 
 // ============================================================
-// АДМИН-ПАНЕЛЬ
+// АДМИН-ПАНЕЛЬ (с редактированием и удалением)
 // ============================================================
 function renderAdminApps(page = 1) {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if (!user || user.role !== 'admin') {
-        navigateTo('../index.html');
+        window.location.href = '../index.html';
         return;
     }
-    
+
     let apps = JSON.parse(localStorage.getItem('applications')) || [];
     const filter = document.getElementById('status-filter')?.value || 'all';
-    
+
     if (filter !== 'all') {
         apps = apps.filter(a => a.status === filter);
     }
-    
+
     const totalPages = Math.ceil(apps.length / itemsPerPage) || 1;
     page = Math.max(1, Math.min(page, totalPages));
     currentAdminPage = page;
-    
-    // Обновляем пагинацию
+
     const info = document.getElementById('page-info');
-    if (info) info.innerText = `Стр. ${page} из ${totalPages}`;
-    
+    if (info) info.innerText = 'Стр. ' + page + ' из ' + totalPages;
+
     const prevBtn = document.getElementById('prev-page');
     const nextBtn = document.getElementById('next-page');
     if (prevBtn) prevBtn.disabled = page === 1;
     if (nextBtn) nextBtn.disabled = page === totalPages;
-    
+
     const start = (page - 1) * itemsPerPage;
     const paginatedApps = apps.slice(start, start + itemsPerPage);
     const list = document.getElementById('admin-app-list');
     if (!list) return;
-    
+
     if (paginatedApps.length === 0) {
         list.innerHTML = '<p style="text-align:center; color:#888; padding:30px 0;">Заявок не найдено.</p>';
         return;
     }
-    
+
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+
     list.innerHTML = paginatedApps.map((app) => {
-        // Получаем имя пользователя
-        const users = JSON.parse(localStorage.getItem('users')) || [];
         const user = users.find(u => u.login === app.userLogin);
         const userName = user ? user.fio : app.userLogin;
-        
+
         return `
             <div class="app-card" style="border-left-color: #0d47a1;">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
                     <strong>${app.course}</strong>
-                    <small style="color:#6a6a82;">👤 ${userName}</small>
+                    <small style="color:#6a6a82;">${userName}</small>
                 </div>
-                <div class="meta">📅 ${app.date} | 💳 ${app.payment}</div>
-                <div style="display:flex; align-items:center; gap:12px; margin-top:8px; flex-wrap:wrap;">
+                <div class="meta">${app.date} | ${app.payment}</div>
+                <div class="actions">
                     <span style="font-size:14px; font-weight:500;">Статус:</span>
-                    <select onchange="changeStatus(${app.id}, this.value)" style="width:auto; padding:6px 12px; border-radius:8px; font-size:14px; background:white;">
-                        <option value="Новая" ${app.status === 'Новая' ? 'selected' : ''}>🆕 Новая</option>
-                        <option value="Идет обучение" ${app.status === 'Идет обучение' ? 'selected' : ''}>📚 В процессе</option>
-                        <option value="Обучение завершено" ${app.status === 'Обучение завершено' ? 'selected' : ''}>✅ Завершено</option>
+                    <select onchange="changeStatus(${app.id}, this.value)">
+                        <option value="Новая" ${app.status === 'Новая' ? 'selected' : ''}>Новая</option>
+                        <option value="Идет обучение" ${app.status === 'Идет обучение' ? 'selected' : ''}>В процессе</option>
+                        <option value="Обучение завершено" ${app.status === 'Обучение завершено' ? 'selected' : ''}>Завершено</option>
                     </select>
+                    <button class="btn-outline btn-sm" onclick="openModal(${app.id})">Редактировать</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteApp(${app.id})">Удалить</button>
                 </div>
             </div>
         `;
@@ -348,7 +378,44 @@ function changeStatus(appId, newStatus) {
         apps[index].status = newStatus;
         localStorage.setItem('applications', JSON.stringify(apps));
         renderAdminApps(currentAdminPage);
-        showToast(`Статус обновлён на "${newStatus}"`);
+        showToast('Статус обновлён на "' + newStatus + '"');
+    }
+}
+
+function deleteApp(appId) {
+    if (!confirm('Вы уверены, что хотите удалить эту заявку?')) return;
+
+    let apps = JSON.parse(localStorage.getItem('applications')) || [];
+    apps = apps.filter(a => a.id !== appId);
+    localStorage.setItem('applications', JSON.stringify(apps));
+    renderAdminApps(currentAdminPage);
+    showToast('Заявка удалена');
+}
+
+function saveEdit(e) {
+    e.preventDefault();
+    const id = parseInt(document.getElementById('edit-id').value);
+    const course = document.getElementById('edit-course').value;
+    const date = document.getElementById('edit-date').value.trim();
+    const payment = document.getElementById('edit-payment').value;
+    const status = document.getElementById('edit-status').value;
+
+    if (!/^(\d{2})\.(\d{2})\.(\d{4})$/.test(date)) {
+        showToast('Введите дату в формате ДД.ММ.ГГГГ', 'error');
+        return;
+    }
+
+    const apps = JSON.parse(localStorage.getItem('applications')) || [];
+    const index = apps.findIndex(a => a.id === id);
+    if (index !== -1) {
+        apps[index].course = course;
+        apps[index].date = date;
+        apps[index].payment = payment;
+        apps[index].status = status;
+        localStorage.setItem('applications', JSON.stringify(apps));
+        closeModal();
+        renderAdminApps(currentAdminPage);
+        showToast('Заявка обновлена');
     }
 }
 
@@ -360,29 +427,46 @@ function changePage(direction) {
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
-    // Слайдер на главной
     initSlider();
-    
-    // Авторизация/регистрация
     initAuth();
-    
-    // Определяем страницу
+
+    // Форма редактирования
+    const editForm = document.getElementById('edit-form');
+    if (editForm) {
+        editForm.addEventListener('submit', saveEdit);
+    }
+
+    // Закрытие модального окна по клику на фон
+    const modal = document.getElementById('edit-modal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Закрытие по Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+    }
+
     const path = window.location.pathname.split('/').pop();
     const page = path || 'index.html';
-    
+
     if (page === 'dashboard.html') {
         renderDashboard();
     }
-    
+
     if (page === 'application.html') {
         initApplication();
     }
-    
+
     if (page === 'admin.html') {
         renderAdminApps(1);
         const filter = document.getElementById('status-filter');
         if (filter) {
-            filter.addEventListener('change', () => renderAdminApps(1));
+            filter.addEventListener('change', function() {
+                renderAdminApps(1);
+            });
         }
     }
 });

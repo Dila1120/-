@@ -8,7 +8,11 @@
 </head>
 <body>
     <header>
-        <div class="logo">📘 Учусь.РФ <span style="font-size:14px; font-weight:400; color:#6a6a82;">Админ-панель</span></div>
+        <div class="logo">
+            <img src="images/logo.png" alt="Учусь.РФ" class="logo-img">
+            <span>Учусь.РФ</span>
+            <span style="font-size:14px; font-weight:400; color:#6a6a82; margin-left:8px;">Админ-панель</span>
+        </div>
         <nav>
             <button class="btn-outline btn-sm" onclick="logout()">Выход</button>
         </nav>
@@ -16,14 +20,16 @@
 
     <div class="container">
         <div class="card">
-            <h2 style="color: var(--dark-primary); margin-bottom:20px;">⚙️ Управление заявками</h2>
+            <h2 style="color: var(--dark-primary); margin-bottom:20px;">Управление заявками</h2>
             <div class="filter-bar">
                 <select id="status-filter">
-                    <option value="all">📋 Все заявки</option>
-                    <option value="Новая">🆕 Новые</option>
-                    <option value="Идет обучение">📚 В процессе</option>
-                    <option value="Обучение завершено">✅ Завершены</option>
+                    <option value="all">Все заявки</option>
+                    <option value="Новая">Новые</option>
+                    <option value="Идет обучение">В процессе</option>
+                    <option value="Обучение завершено">Завершены</option>
                 </select>
+                <button class="btn btn-sm" onclick="renderAdminApps(1)" style="padding:8px 20px;">Применить</button>
+                <button class="btn-outline btn-sm" onclick="renderAdminApps(1)" style="padding:8px 20px;">Сбросить</button>
             </div>
             <div id="admin-app-list"></div>
             <div class="pagination">
@@ -33,6 +39,44 @@
             </div>
         </div>
     </div>
+
+    <!-- Модальное окно для редактирования -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Редактирование заявки</h3>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <form id="edit-form">
+                <input type="hidden" id="edit-id">
+                <label>Курс</label>
+                <select id="edit-course">
+                    <option value="Повышение квалификации">Повышение квалификации</option>
+                    <option value="Курс переподготовки">Курс переподготовки</option>
+                    <option value="Охрана труда">Охрана труда</option>
+                </select>
+                <label>Дата (ДД.ММ.ГГГГ)</label>
+                <input type="text" id="edit-date" placeholder="Например: 15.06.2026">
+                <label>Способ оплаты</label>
+                <select id="edit-payment">
+                    <option value="Предоплата по QR-коду">Предоплата по QR-коду</option>
+                    <option value="Оплата картой МИР">Оплата картой МИР</option>
+                    <option value="Постоплата в офисе">Постоплата в офисе (г. Москва)</option>
+                </select>
+                <label>Статус</label>
+                <select id="edit-status">
+                    <option value="Новая">Новая</option>
+                    <option value="Идет обучение">В процессе</option>
+                    <option value="Обучение завершено">Завершено</option>
+                </select>
+                <div class="modal-actions">
+                    <button type="submit" class="btn">Сохранить</button>
+                    <button type="button" class="btn-outline" onclick="closeModal()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="main.js"></script>
 </body>
 </html>

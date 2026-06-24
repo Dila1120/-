@@ -41,14 +41,18 @@ header {
 }
 
 .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-size: 24px;
     font-weight: 700;
     color: var(--dark-primary);
     letter-spacing: -0.5px;
 }
 
-.logo span {
-    color: var(--primary);
+.logo-img {
+    height: 36px;
+    width: auto;
 }
 
 nav {
@@ -57,13 +61,16 @@ nav {
     align-items: center;
 }
 
-nav a {
+nav a,
+nav button {
     text-decoration: none;
     font-weight: 500;
     transition: var(--transition);
     padding: 8px 18px;
     border-radius: 20px;
     font-size: 15px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
 }
 
 .btn-header {
@@ -106,6 +113,23 @@ nav a {
     }
 }
 
+/* ===== ЛОГОТИП НА СТРАНИЦАХ АВТОРИЗАЦИИ ===== */
+.auth-logo {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.auth-logo-img {
+    height: 50px;
+    width: auto;
+    margin-bottom: 8px;
+}
+
+.auth-logo h2 {
+    color: var(--dark-primary);
+    font-weight: 700;
+}
+
 /* ===== ГЕРОЙ ===== */
 .hero {
     text-align: center;
@@ -118,10 +142,6 @@ nav a {
     margin-bottom: 12px;
     font-weight: 800;
     letter-spacing: -1px;
-}
-
-.hero h1 span {
-    color: var(--primary);
 }
 
 .hero p {
@@ -240,6 +260,7 @@ nav a {
     transition: var(--transition);
     text-decoration: none;
     display: inline-block;
+    font-family: 'Inter', sans-serif;
 }
 
 .btn:hover {
@@ -260,6 +281,7 @@ nav a {
     transition: var(--transition);
     text-decoration: none;
     display: inline-block;
+    font-family: 'Inter', sans-serif;
 }
 
 .btn-outline:hover {
@@ -276,11 +298,24 @@ nav a {
 .btn-danger {
     background: #dc3545;
     border-color: #dc3545;
+    color: white;
 }
 
 .btn-danger:hover {
     background: #b02a37;
     border-color: #b02a37;
+    color: white;
+}
+
+.btn-warning {
+    background: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.btn-warning:hover {
+    background: #e0a800;
+    border-color: #e0a800;
 }
 
 /* ===== ФОРМЫ ===== */
@@ -365,6 +400,28 @@ textarea:focus {
     margin-top: 4px;
 }
 
+.app-card .actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+.app-card .actions select {
+    width: auto;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    border: 2px solid #e2e8f0;
+}
+
+.app-card .actions .btn-sm {
+    padding: 4px 12px;
+    font-size: 13px;
+}
+
 .status-badge {
     padding: 4px 14px;
     border-radius: 20px;
@@ -412,6 +469,7 @@ textarea:focus {
     gap: 12px;
     margin-bottom: 20px;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .filter-bar select {
@@ -419,6 +477,10 @@ textarea:focus {
     padding: 10px 16px;
     border-radius: 10px;
     background: white;
+}
+
+.filter-bar .btn {
+    padding: 10px 20px;
 }
 
 .pagination {
@@ -437,6 +499,7 @@ textarea:focus {
     cursor: pointer;
     transition: var(--transition);
     font-weight: 500;
+    font-family: 'Inter', sans-serif;
 }
 
 .pagination button:hover:not(:disabled) {
@@ -447,6 +510,120 @@ textarea:focus {
 .pagination button:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+}
+
+/* ===== МОДАЛЬНОЕ ОКНО ===== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: white;
+    padding: 30px 35px;
+    border-radius: var(--radius);
+    max-width: 480px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f0f4f9;
+}
+
+.modal-header h3 {
+    color: var(--dark-primary);
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: #888;
+    transition: var(--transition);
+    line-height: 1;
+    padding: 0 8px;
+}
+
+.modal-close:hover {
+    color: #dc3545;
+    transform: rotate(90deg);
+}
+
+.modal-content label {
+    margin-top: 12px;
+    font-weight: 500;
+}
+
+.modal-content input,
+.modal-content select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    background: #fafcff;
+}
+
+.modal-content input:focus,
+.modal-content select:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.12);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-actions .btn {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+}
+
+.modal-actions .btn-outline {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
 }
 
 /* ===== TOAST ===== */
@@ -530,7 +707,12 @@ textarea:focus {
         font-size: 20px;
     }
 
-    nav a {
+    .logo-img {
+        height: 30px;
+    }
+
+    nav a,
+    nav button {
         font-size: 13px;
         padding: 6px 14px;
     }
@@ -568,6 +750,19 @@ textarea:focus {
     .contact-block {
         padding: 18px 16px;
     }
+
+    .auth-logo-img {
+        height: 40px;
+    }
+
+    .modal-content {
+        padding: 20px 16px;
+        width: 95%;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 390px) {
@@ -588,5 +783,14 @@ textarea:focus {
     .btn-outline {
         width: 100%;
         text-align: center;
+    }
+
+    .app-card .actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .app-card .actions select {
+        width: 100%;
     }
 }
