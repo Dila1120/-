@@ -199,7 +199,7 @@ nav button {
 /* ===== ГЕРОЙ ===== */
 .hero {
     text-align: center;
-    padding: 40px 0 60px;
+    padding: 40px 0 10px;
     background: linear-gradient(180deg, #f0f4f9 0%, #ffffff 100%);
 }
 
@@ -762,7 +762,7 @@ textarea:focus {
 
 /* ===== БЛОК КУРСОВ ===== */
 .courses {
-    padding: 60px 0;
+    padding: 40px 0;
     background: #f0f4f9;
 }
 
@@ -835,7 +835,7 @@ textarea:focus {
 
 /* ===== КОНТАКТЫ ===== */
 .contact-section {
-    padding: 60px 0;
+    padding: 40px 0;
     background: white;
 }
 
