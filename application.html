@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заявка - Учусь.РФ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/logo.png" alt="Учусь.РФ" class="logo-img">
+            <span>Учусь.РФ</span>
+        </div>
+        <nav>
+            <a href="dashboard.html" class="btn-outline btn-sm">Назад</a>
+        </nav>
+    </header>
+
+    <div class="app-container">
+        <h2 style="color: var(--dark-primary);">Новая заявка</h2>
+        <form id="app-form">
+            <label>Выберите курс</label>
+            <select id="app-course">
+                <option value="Повышение квалификации">Повышение квалификации</option>
+                <option value="Курс переподготовки">Курс переподготовки</option>
+                <option value="Охрана труда">Охрана труда</option>
+            </select>
+            
+            <label>Дата начала (ДД.ММ.ГГГГ)</label>
+            <input type="text" id="app-date" placeholder="Например: 15.06.2026" required>
+            
+            <label>Способ оплаты</label>
+            <select id="app-payment">
+                <option value="Предоплата по QR-коду">Предоплата по QR-коду</option>
+                <option value="Оплата картой МИР">Оплата картой МИР</option>
+                <option value="Постоплата в офисе">Постоплата в офисе (г. Москва)</option>
+            </select>
+            
+            <button type="submit" class="btn" style="width:100%; margin-top:16px;">Отправить заявку</button>
+        </form>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
