@@ -1,8 +1,6 @@
 // ============================================================
 // ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
 // ============================================================
-var currentSlide = 0;
-var slideInterval;
 var currentAdminPage = 1;
 var itemsPerPage = 4;
 
@@ -83,38 +81,6 @@ function initBurgerMenu() {
 }
 
 // ============================================================
-// МОДАЛЬНОЕ ОКНО
-// ============================================================
-function openModal(appId) {
-    var apps = JSON.parse(localStorage.getItem('applications')) || [];
-    var app = null;
-    for (var i = 0; i < apps.length; i++) {
-        if (apps[i].id === appId) {
-            app = apps[i];
-            break;
-        }
-    }
-    if (!app) {
-        showToast('Заявка не найдена', 'error');
-        return;
-    }
-
-    document.getElementById('edit-id').value = appId;
-    document.getElementById('edit-course').value = app.course;
-    document.getElementById('edit-date').value = app.date;
-    document.getElementById('edit-payment').value = app.payment;
-    document.getElementById('edit-status').value = app.status;
-
-    document.getElementById('edit-modal').classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-    document.getElementById('edit-modal').classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-// ============================================================
 // СЛАЙДЕР
 // ============================================================
 function initSlider() {
@@ -135,8 +101,11 @@ function initSlider() {
             var current = 0;
             var interval;
 
+            wrapper.dataset.current = 0;
+
             function goToSlide(i) {
                 current = (i + totalSlides) % totalSlides;
+                wrapper.dataset.current = current;
                 wrapper.style.transform = 'translateX(-' + (current * 100 / totalSlides) + '%)';
                 if (dotsContainer) {
                     var dots = dotsContainer.querySelectorAll('span');
@@ -169,18 +138,20 @@ function initSlider() {
             }
 
             if (prevBtn) {
-                prevBtn.addEventListener('click', function() {
+                prevBtn.onclick = function(e) {
+                    e.preventDefault();
                     clearInterval(interval);
                     prevSlide();
                     startAutoSlide();
-                });
+                };
             }
             if (nextBtn) {
-                nextBtn.addEventListener('click', function() {
+                nextBtn.onclick = function(e) {
+                    e.preventDefault();
                     clearInterval(interval);
                     nextSlide();
                     startAutoSlide();
-                });
+                };
             }
 
             goToSlide(0);
@@ -394,7 +365,10 @@ function renderAdminApps(page) {
     var apps = JSON.parse(localStorage.getItem('applications')) || [];
     var filter = document.getElementById('status-filter');
     var filterValue = filter ? filter.value : 'all';
+    var sort = document.getElementById('sort-filter');
+    var sortValue = sort ? sort.value : 'date-desc';
 
+    // Фильтрация
     if (filterValue !== 'all') {
         var filtered = [];
         for (var i = 0; i < apps.length; i++) {
@@ -404,6 +378,23 @@ function renderAdminApps(page) {
         }
         apps = filtered;
     }
+
+    // Сортировка
+    apps.sort(function(a, b) {
+        switch(sortValue) {
+            case 'date-desc':
+                return b.id - a.id;
+            case 'date-asc':
+                return a.id - b.id;
+            case 'status':
+                var statusOrder = { 'Новая': 1, 'Идет обучение': 2, 'Обучение завершено': 3 };
+                return statusOrder[a.status] - statusOrder[b.status];
+            case 'course':
+                return a.course.localeCompare(b.course);
+            default:
+                return b.id - a.id;
+        }
+    });
 
     var totalPages = Math.ceil(apps.length / itemsPerPage) || 1;
     page = Math.max(1, Math.min(page, totalPages));
@@ -432,12 +423,10 @@ function renderAdminApps(page) {
     var html = '';
     for (var i = 0; i < paginatedApps.length; i++) {
         var app = paginatedApps[i];
-        var found = false;
         var userName = app.userLogin;
         for (var u = 0; u < users.length; u++) {
             if (users[u].login === app.userLogin) {
                 userName = users[u].fio;
-                found = true;
                 break;
             }
         }
@@ -461,6 +450,14 @@ function renderAdminApps(page) {
             '</div>';
     }
     list.innerHTML = html;
+}
+
+function resetFilter() {
+    var filter = document.getElementById('status-filter');
+    if (filter) filter.value = 'all';
+    var sort = document.getElementById('sort-filter');
+    if (sort) sort.value = 'date-desc';
+    renderAdminApps(1);
 }
 
 function changeStatus(appId, newStatus) {
@@ -493,6 +490,38 @@ function deleteApp(appId) {
     localStorage.setItem('applications', JSON.stringify(filtered));
     renderAdminApps(currentAdminPage);
     showToast('Заявка удалена');
+}
+
+// ============================================================
+// МОДАЛЬНОЕ ОКНО
+// ============================================================
+function openModal(appId) {
+    var apps = JSON.parse(localStorage.getItem('applications')) || [];
+    var app = null;
+    for (var i = 0; i < apps.length; i++) {
+        if (apps[i].id === appId) {
+            app = apps[i];
+            break;
+        }
+    }
+    if (!app) {
+        showToast('Заявка не найдена', 'error');
+        return;
+    }
+
+    document.getElementById('edit-id').value = appId;
+    document.getElementById('edit-course').value = app.course;
+    document.getElementById('edit-date').value = app.date;
+    document.getElementById('edit-payment').value = app.payment;
+    document.getElementById('edit-status').value = app.status;
+
+    document.getElementById('edit-modal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('edit-modal').classList.remove('active');
+    document.body.style.overflow = '';
 }
 
 function saveEdit(e) {
@@ -572,6 +601,12 @@ document.addEventListener('DOMContentLoaded', function() {
         var filter = document.getElementById('status-filter');
         if (filter) {
             filter.addEventListener('change', function() {
+                renderAdminApps(1);
+            });
+        }
+        var sort = document.getElementById('sort-filter');
+        if (sort) {
+            sort.addEventListener('change', function() {
                 renderAdminApps(1);
             });
         }

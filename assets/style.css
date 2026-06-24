@@ -143,6 +143,32 @@ nav button {
     padding: 20px;
 }
 
+.card {
+    background: var(--white);
+    padding: 30px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .app-container {
     max-width: 480px;
     margin: 40px auto;
@@ -151,17 +177,6 @@ nav button {
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     animation: fadeUp 0.5s ease forwards;
-}
-
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 /* ===== ЛОГОТИП НА СТРАНИЦАХ АВТОРИЗАЦИИ ===== */
@@ -260,6 +275,7 @@ nav button {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 2;
 }
 
 .slider-btn:hover {
@@ -282,6 +298,7 @@ nav button {
     transform: translateX(-50%);
     display: flex;
     gap: 8px;
+    z-index: 2;
 }
 
 .slider-dots span {
@@ -518,6 +535,7 @@ textarea:focus {
     padding: 10px 16px;
     border-radius: 10px;
     background: white;
+    border: 2px solid #e2e8f0;
 }
 
 .filter-bar .btn {
@@ -1122,6 +1140,16 @@ textarea:focus {
 
     .modal-actions {
         flex-direction: column;
+    }
+
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-bar select,
+    .filter-bar .btn {
+        width: 100%;
     }
 }
 
